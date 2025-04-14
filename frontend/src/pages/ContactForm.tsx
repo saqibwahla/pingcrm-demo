@@ -40,7 +40,7 @@ const ContactForm = () => {
   const { data: companies } = useQuery({
     queryKey: ['companies'],
     queryFn: async () => {
-      const response = await axios.get('http://localhost:8000/api/companies');
+      const response = await axios.get('http://0.0.0.0:10000/api/companies');
       return response.data;
     },
   });
@@ -48,7 +48,7 @@ const ContactForm = () => {
   const { data: contact } = useQuery({
     queryKey: ['contact', id],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:8000/api/contacts/${id}`);
+      const response = await axios.get(`http://0.0.0.0:10000/api/contacts/${id}`);
       return response.data;
     },
     enabled: !!id,

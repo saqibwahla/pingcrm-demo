@@ -18,7 +18,7 @@ const Contacts = () => {
   const { data: contacts, isLoading } = useQuery({
     queryKey: ['contacts'],
     queryFn: async () => {
-      const response = await axios.get('http://localhost:8000/api/contacts');
+      const response = await axios.get('http://0.0.0.0:10000/api/contacts');
       return response.data;
     },
   });

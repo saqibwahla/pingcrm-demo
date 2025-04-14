@@ -1,20 +1,37 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import os
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
-# Construct database URL from environment variables
-DATABASE_URL = f"postgresql://{os.getenv('DATABASE_USER')}:{os.getenv('DATABASE_PASSWORD')}@{os.getenv('DATABASE_HOST')}:{os.getenv('DATABASE_PORT')}/{os.getenv('DATABASE_NAME')}"
+# Get the DATABASE_URL from environment variables
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-engine = create_engine(DATABASE_URL)
+# If no DATABASE_URL is provided, raise a more descriptive error
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set in the environment")
+
+# Add URL validation and correction for render.com postgres URLs
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+try:
+    # Create SQLAlchemy engine
+    engine = create_engine(DATABASE_URL)
+except Exception as e:
+    print(f"Error creating database engine: {str(e)}")
+    print(f"Database URL format (censored): {DATABASE_URL.split('@')[0]}@****")
+    raise
+
+# Create SessionLocal class
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# Create Base class
 Base = declarative_base()
 
-# Dependency
+# Dependency to get DB session
 def get_db():
     db = SessionLocal()
     try:

@@ -8,6 +8,24 @@ from fastapi import FastAPI
 
 load_dotenv()
 
+# Create FastAPI app instance
+app = FastAPI()
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "https://pingcrm-demo.vercel.app",  # Replace with your actual Vercel domain
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=3600,
+)
+
 # Get the DATABASE_URL from environment variables
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -39,20 +57,4 @@ def get_db():
     try:
         yield db
     finally:
-        db.close()
-
-app = FastAPI()
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",  # Local frontend development
-        "http://localhost:5173",  # Vite's default port
-        "https://pingcrm-demo.vercel.app",  # Your Vercel domain
-        "https://your-custom-domain.com",  # If you have a custom domain
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-) 
+        db.close() 

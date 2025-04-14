@@ -37,4 +37,5 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    # Use port 10000 for production on Render.com
+    uvicorn.run(app, host="0.0.0.0", port=10000) 

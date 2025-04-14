@@ -16,7 +16,7 @@ const Companies = () => {
   const { data: companies, isLoading } = useQuery({
     queryKey: ['companies'],
     queryFn: async () => {
-      const response = await axios.get('http://0.0.0.0:10000/api/companies');
+      const response = await axios.get('https://pingcrm-demo.onrender.com/api/companies');
       return response.data;
     },
   });

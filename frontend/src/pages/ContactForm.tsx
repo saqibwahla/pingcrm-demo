@@ -40,7 +40,7 @@ const ContactForm = () => {
   const { data: companies } = useQuery({
     queryKey: ['companies'],
     queryFn: async () => {
-      const response = await axios.get('http://0.0.0.0:10000/api/companies');
+      const response = await axios.get('https://pingcrm-demo.onrender.com/api/companies');
       return response.data;
     },
   });
@@ -48,7 +48,7 @@ const ContactForm = () => {
   const { data: contact } = useQuery({
     queryKey: ['contact', id],
     queryFn: async () => {
-      const response = await axios.get(`http://0.0.0.0:10000/api/contacts/${id}`);
+      const response = await axios.get(`https://pingcrm-demo.onrender.com/api/contacts/${id}`);
       return response.data;
     },
     enabled: !!id,
@@ -63,9 +63,9 @@ const ContactForm = () => {
   const mutation = useMutation({
     mutationFn: (data: Partial<Contact>) => {
       if (id) {
-        return axios.put(`http://localhost:8000/api/contacts/${id}`, data);
+        return axios.put(`https://pingcrm-demo.onrender.com/api/contacts/${id}`, data);
       }
-      return axios.post('http://localhost:8000/api/contacts', data);
+      return axios.post('https://pingcrm-demo.onrender.com/api/contacts', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });

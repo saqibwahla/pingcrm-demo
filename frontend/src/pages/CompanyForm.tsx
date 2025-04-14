@@ -23,7 +23,7 @@ const CompanyForm = () => {
   const { data: company } = useQuery({
     queryKey: ['company', id],
     queryFn: async () => {
-      const response = await axios.get(`http://0.0.0.0:10000/api/companies/${id}`);
+      const response = await axios.get(`https://pingcrm-demo.onrender.com/api/companies/${id}`);
       return response.data;
     },
     enabled: !!id,
@@ -38,9 +38,9 @@ const CompanyForm = () => {
   const mutation = useMutation({
     mutationFn: (data: Partial<Company>) => {
       if (id) {
-        return axios.put(`http://0.0.0.0:10000/api/companies/${id}`, data);
+      return axios.put(`https://pingcrm-demo.onrender.com/api/companies/${id}`, data);
       }
-      return axios.post('http://0.0.0.0:10000/api/companies', data);
+      return axios.post('https://pingcrm-demo.onrender.com/api/companies', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] });
